@@ -2,6 +2,7 @@
 
 
 import json
+import os
 from core.llm import client
 from core.utils import load_prompt, log
 

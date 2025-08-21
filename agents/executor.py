@@ -2,6 +2,7 @@
 
 
 import argparse
+import os
 from agents.planner import make_plan
 from agents.synthesizer import synthesize_answer
 from core.models import Plan
@@ -61,6 +62,16 @@ def main():
     final_answer = synthesize_answer(user_query, results)
     print("\n[executor.py] Final synthesized answer:")
     print(final_answer)
+
+    output_dir = "outputs"
+    output_path = os.path.join(output_dir, "synthesis.md")
+
+    # Ensure directory exists
+    os.makedirs(output_dir, exist_ok=True)
+
+    # Overwrite the file with each run
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(final_answer)
 
 if __name__ == "__main__":
     main()
