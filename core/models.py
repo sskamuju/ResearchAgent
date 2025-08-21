@@ -1,4 +1,4 @@
-# Define schema using Pydantic
+
 
 
 from pydantic import BaseModel
