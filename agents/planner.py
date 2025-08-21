@@ -9,9 +9,11 @@ from pathlib import Path
 from core.models import Plan
 from core.llm import client
 from core.utils import load_prompt
+from langsmith import traceable
 
 PLANNER_PROMPT = load_prompt("prompts/planner.txt")
 
+@traceable(name="PlannerAgent")
 def make_plan(user_prompt: str) -> Plan:
     system_prompt = PLANNER_PROMPT
     messages = [

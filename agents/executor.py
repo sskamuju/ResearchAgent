@@ -8,12 +8,17 @@ from agents.synthesizer import synthesize_answer
 from core.models import Plan
 from tools.tavily import tavily_search
 from core.utils import log
+from langsmith import Client, traceable
+
 
 # Tool function registry
 TOOL_REGISTRY = {
     "tavily_search": tavily_search
 }
 
+client = Client()
+
+@traceable(name="ExecutorAgent")
 def execute_plan(plan: Plan) -> dict:
     results = {}
 

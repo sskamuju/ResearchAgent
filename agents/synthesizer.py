@@ -5,9 +5,12 @@ import json
 import os
 from core.llm import client
 from core.utils import load_prompt, log
+from langsmith import traceable
+
 
 SYNTHESIZER_PROMPT = load_prompt("prompts/synthesizer.txt")
 
+@traceable(name="SynthesizerAgent")
 def synthesize_answer(user_question: str, results: dict) -> str:
     formatted_results = json.dumps(results, indent=2)
 
