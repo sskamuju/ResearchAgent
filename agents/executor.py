@@ -9,7 +9,7 @@ from core.models import Plan
 from tools.tavily import tavily_search
 from core.utils import log
 from langsmith import Client, traceable
-
+from core.memory import init_db, save_interaction, get_or_create_citation_id
 
 # Tool function registry
 TOOL_REGISTRY = {
@@ -17,6 +17,7 @@ TOOL_REGISTRY = {
 }
 
 client = Client()
+init_db()
 
 @traceable(name="ExecutorAgent")
 def execute_plan(plan: Plan) -> dict:
@@ -77,6 +78,11 @@ def main():
     # Overwrite the file with each run
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(final_answer)
+    
+    all_urls = [item["url"] for step in results.values() if isinstance(step, list) for item in step]
+    citation_ids = [get_or_create_citation_id(url) for url in all_urls]
+
+    save_interaction(user_query, plan, final_answer)
 
 if __name__ == "__main__":
     main()
