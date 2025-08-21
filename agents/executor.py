@@ -1,7 +1,9 @@
 
 
 
+import argparse
 from agents.planner import make_plan
+from agents.synthesizer import synthesize_answer
 from core.models import Plan
 from tools.tavily import tavily_search
 from core.utils import log
@@ -32,14 +34,33 @@ def execute_plan(plan: Plan) -> dict:
 
     return results
 
-if __name__ == "__main__":
-    user_query = "What caused the 2008 financial crisis?"
+def main():
+    parser = argparse.ArgumentParser(description="Research Agent CLI")
+    parser.add_argument(
+        "--question",
+        type=str,
+        required=False,
+        help="The research question to answer. If not provided, you'll be prompted interactively."
+    )
+    args = parser.parse_args()
+
+    user_query = args.question or input("What would you like to learn about? ").strip()
+    log("executor", f"Received user query: {user_query}")
+
+    # Generate a plan
     plan = make_plan(user_query)
-    print("[executor.py] Plan created:")
+    print("\n[executor.py] Plan created:")
     print(plan.model_dump_json(indent=2))
 
+    # Execute the plan
     results = execute_plan(plan)
     print("\n[executor.py] Execution results:")
     for step_id, result in results.items():
         print(f"\nStep: {step_id}\nResult:\n{result}")
 
+    final_answer = synthesize_answer(user_query, results)
+    print("\n[executor.py] Final synthesized answer:")
+    print(final_answer)
+
+if __name__ == "__main__":
+    main()
