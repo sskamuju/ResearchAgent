@@ -83,13 +83,6 @@ and enter your question interactively.
 
 The final answer will be written to `outputs/synthesis.md`.
 
-### Docker Usage
-
-```sh
-docker build -t research-agent .
-docker run --rm -it --env-file .env research-agent --question "Your research question here"
-```
-
 ## Extending the Agent
 
 - Add new tools in `tools/` and register them in `agents/executor.py`.
