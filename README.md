@@ -37,10 +37,11 @@ ResearchAgent/
 └── README.md             # Project documentation
 ```
 ## Docker Quickstart
+`
 docker build -t research-agent .
 docker run --rm -it --env-file .env research-agent --question "Who are the most influential R&B singers of the 2010s?"
 docker run --rm -it --env-file .env research-agent
-
+`
 ## Core Workflow
 
 1. **Planner Agent (`agents/planner.py`):**  
