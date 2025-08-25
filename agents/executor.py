@@ -23,7 +23,6 @@ TOOL_REGISTRY = {
     metadata={"env": "local"}
 )
 def execute_plan(plan: Plan, user_query: str, langsmith_extra=None) -> dict:
-    # Access current trace and append dynamic metadata/tags
     rt = get_current_run_tree()
     if rt:
         rt.metadata["user_query"] = user_query
