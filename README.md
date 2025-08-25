@@ -1,78 +1,100 @@
 # ResearchAgent
 
-ResearchAgent is a headless Python research agent designed to automate research tasks using LLMs and external APIs. It is modular, extensible, and runs without a user interface, making it ideal for backend automation, data gathering, and intelligent workflow execution.
+ResearchAgent is a headless Python research agent that automates research tasks using LLMs and external APIs. It is modular, extensible, and runs as a backend service or script—ideal for automation, data gathering, and intelligent workflow execution.
 
 ## Features
-- **Headless operation**: No UI, runs as a backend service or script.
-- **LLM-powered planning**: Uses OpenAI models to generate structured research plans.
-- **Tool integration**: Supports external APIs (e.g., Tavily) for web search and data gathering.
-- **Extensible architecture**: Easily add new tools, models, or workflows.
+
+- **Headless operation:** No UI, runs as a backend service or CLI.
+- **LLM-powered planning:** Uses OpenAI models to generate structured research plans.
+- **Tool integration:** Supports external APIs (e.g., Tavily) for web search and data gathering.
+- **Extensible architecture:** Easily add new tools, models, or workflows.
+- **LangSmith integrated:** End-to-end observability of each query, including tool usage and synthesized answers.
 
 ## Project Structure
 
 ```
 ResearchAgent/
 ├── agents/
-│   ├── planner.py      # Generates research plans using LLMs
-│   └── executor.py     # (To be implemented) Executes plan steps
+│   ├── planner.py        # Generates research plans using LLMs
+│   ├── executor.py       # Executes plan steps, manages tool registry, logging, and output
+│   └── synthesizer.py    # Synthesizes final answer from tool results
 ├── core/
-│   ├── llm.py          # OpenAI client setup
-│   ├── models.py       # Pydantic models for plans and steps
-│   └── utils.py        # Utility functions (e.g., prompt loading)
+│   ├── llm.py            # OpenAI client setup
+│   ├── models.py         # Pydantic models for plans and steps
+│   └── utils.py          # Utility functions (e.g., logging, prompt loading)
 ├── tools/
-│   └── tavily.py       # Tavily web search integration
+│   └── tavily.py         # Tavily web search tool wrapper
 ├── prompts/
-│   └── planner.txt     # System prompt for the planner agent
-├── cli.py              # Example CLI entry point
-├── requirements.txt    # Python dependencies
-├── Dockerfile          # Containerization support
-└── README              # Project documentation
+│   ├── planner.txt       # Prompt for planning agent
+│   ├── executor.txt      # (Optional) Prompt for executor agent
+│   └── synthesizer.txt   # Prompt for synthesizing agent
+├── outputs/
+│   └── synthesis.md      # Final answer written here on each run
+├── .env.example          # Environment variable template
+├── Dockerfile            # Containerization support
+├── requirements.txt      # Python dependencies
+├── run.py                # CLI entry point for running the agent
+└── README.md             # Project documentation
 ```
-
-## Quickstart with Docker
-
-To build and run the research agent using Docker:
-
-```bash
-# 1. Build the image
+## Docker Quickstart
 docker build -t research-agent .
-
-# 2. Run with a CLI prompt
 docker run --rm -it --env-file .env research-agent --question "Who are the most influential R&B singers of the 2010s?"
-
-# Or to run interactively
 docker run --rm -it --env-file .env research-agent
 
-## Core Components
+## Core Workflow
 
-- **Planner Agent**: Generates a step-by-step research plan using an LLM and a custom prompt.
-- **Executor Agent**: (Planned) Executes each step in the plan, calling tools or APIs as needed.
-- **Tools**: Integrate with external APIs (e.g., Tavily for web search).
-- **Models**: Pydantic schemas for plans and steps ensure structured data flow.
+1. **Planner Agent (`agents/planner.py`):**  
+	Generates a step-by-step research plan using GPT-4o and a curated system prompt.
 
-## Example Usage
+2. **Executor Agent (`agents/executor.py`):**  
+	Executes each step in the plan using registered tools (e.g., web search), logs results, and handles errors.
 
+3. **Synthesizer Agent (`agents/synthesizer.py`):**  
+	Summarizes and compiles all tool results into a coherent final answer using an LLM and a synthesis prompt.
+
+4. **LangSmith Logging:**  
+	Each step is traced with tags and metadata for observability and evaluation.
+
+## Usage
+
+### Environment Setup
+
+1. Install dependencies:
+	```sh
+	pip install -r requirements.txt
+	```
+
+2. Copy `.env.example` to `.env` and fill in your API keys:
+	- `OPENAI_API_KEY`
+	- `TAVILY_API_KEY`
+	- (Optional) `LANGCHAIN_API_KEY`, `LANGCHAIN_PROJECT` for LangSmith
+
+### Running the Agent
+
+```sh
+python run.py --question "What caused the 2008 financial crisis?"
 ```
-$ python -m agents.planner
-{
-  "steps": [
-	 {
-		"id": "1",
-		"tool": "tavily_search",
-		"args": {"query": "2008 financial crisis causes"},
-		"rationale": "Gather background information from the web."
-	 },
-	 ...
-  ]
-}
+or simply:
+```sh
+python run.py
+```
+and enter your question interactively.
+
+The final answer will be written to `outputs/synthesis.md`.
+
+### Docker Usage
+
+```sh
+docker build -t research-agent .
+docker run --rm -it --env-file .env research-agent --question "Your research question here"
 ```
 
 ## Extending the Agent
 
-- Add new tools in the `tools/` directory and register them in the executor.
-- Update prompts in `prompts/` to change agent behavior.
+- Add new tools in `tools/` and register them in `agents/executor.py`.
+- Modify prompts in `prompts/` to change agent behavior.
 - Add new models or workflows as needed.
 
-## License
+## Observability
 
-MIT License
+- All major agent actions are traced and tagged using LangSmith for easy debugging and evaluation.
