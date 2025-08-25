@@ -29,7 +29,7 @@ ResearchAgent/
 └── README              # Project documentation
 ```
 
-## 🐳 Quickstart with Docker
+## Quickstart with Docker
 
 To build and run the research agent using Docker:
 
