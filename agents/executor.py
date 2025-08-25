@@ -17,7 +17,7 @@ TOOL_REGISTRY = {
 }
 
 @traceable(
-    name="ExecutorAgent",
+    name="ExecutorAgent-plan",
     run_type="chain",
     tags=["agent", "executor", "research"],
     metadata={"env": "local"}
@@ -48,6 +48,12 @@ def execute_plan(plan: Plan, user_query: str, langsmith_extra=None) -> dict:
 
     return results
 
+@traceable(
+    name="ExecutorAgent-main",
+    run_type="chain",
+    tags=["agent", "executor", "research"],
+    metadata={"env": "local"}
+)
 def main():
     parser = argparse.ArgumentParser(description="Research Agent CLI")
     parser.add_argument(
@@ -61,7 +67,6 @@ def main():
     user_query = args.question or input("What would you like to learn about? ").strip()
     log("executor", f"Received user query: {user_query}")
 
-    # Create plan and execute it with tagging and metadata passed as langsmith_extra
     plan = make_plan(user_query)
 
     results = execute_plan(
