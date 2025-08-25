@@ -1,41 +1,44 @@
 ---
 
-### Key Takeaways
+### 📌 Key Takeaways
 
-1. President Trump's tariffs led Southeast Asian countries to seek alternative trade partners and increased China's influence in the region.
-2. Southeast Asian countries like Indonesia, Thailand, and Malaysia had varied responses to the tariffs, revealing different strategic approaches.
-3. The tariffs prompted negotiations, resulting in some Southeast Asian countries securing reduced tariff rates on their exports to the U.S.
-4. The tariffs affected regional trade dynamics, including transshipment practices aimed at bypassing U.S. tariffs on Chinese goods.
-
----
-
-### Structured Outline
-
-## Impact of Tariffs on Southeast Asian Economies
-
-- **Search for Alternative Trade Partners**
-  - Southeast Asian countries were compelled to explore new trade partnerships due to U.S. tariffs.
-  - The tariffs inadvertently increased China's influence in the region as countries sought to balance their economic ties.
-
-- **Diverse Strategic Responses**
-  - Countries like Indonesia, Thailand, and Malaysia exhibited different reactions, indicating a lack of unified strategy.
-  - These varied responses reflect the unique economic priorities and dependencies of each nation.
-
-- **Negotiated Tariff Reductions**
-  - Some countries successfully negotiated lower tariffs, such as Vietnam reducing its tariff from 46% to 20% on exports to the U.S.
-  - The Philippines and Indonesia also managed to secure identical reduced tariff rates of 19% on their exports.
-
-## Broader Economic Implications
-
-- **Regional Trade Dynamics**
-  - The tariffs and resultant trade policies reshaped trade flows, leading to increased Chinese exports to Southeast Asia.
-  - Transshipment practices were scrutinized as countries in the region became intermediaries for Chinese goods to the U.S. market.
+- Potassium is essential for maintaining proper cell function and overall health.
+- It regulates fluid balance, muscle contractions, and nerve signals in the body.
+- Adequate potassium intake can help reduce blood pressure and decrease the risk of cardiovascular diseases.
+- Many fruits, vegetables, nuts, and dairy products are rich sources of potassium.
 
 ---
 
-### References
+### 🧠 Structured Outline
 
-1. [Southeast Asia Responds to Trump Tariffs](https://www.cfr.org/blog/southeast-asia-responds-trump-tariffs) - Discussion on the regional response to tariffs and China's increasing influence.
-2. [Southeast Asia's Responses Split Over Trump's August 1 ...](https://chinaglobalsouth.com/2025/07/09/southeast-asia-split-trump-august-1-tariffs/) - Analysis of differing responses from key Southeast Asian countries.
-3. [OTR: How Southeast Asia Negotiated Lower US Tariffs](https://www.asiamediacentre.org.nz/otr-how-southeast-asia-negotiated-lower-us-tariffs) - Details on negotiated tariff reductions with the U.S.
-4. [How US Tariffs on Southeast Asia Could Impact China's ...](https://www.china-briefing.com/news/chinas-transshipments-through-southeast-asia-impact-of-us-tariffs/) - Examination of trade dynamics and transshipment issues.
+## Importance of Potassium
+
+- **Cell Function and Health**
+  - Potassium is crucial for maintaining the function of all body cells.
+  - It plays a significant role in balancing fluids, transmitting nerve signals, and muscle contractions.
+  
+- **Health Benefits**
+  - Helps regulate blood pressure, reducing the risk of heart disease.
+  - Supports cardiovascular health by balancing sodium levels in the body.
+
+## Sources of Potassium
+
+- **Fruits and Vegetables**
+  - Rich in potassium: bananas, oranges, cantaloupes, apricots, and sweet potatoes.
+  - Leafy greens like spinach, as well as yams and tomatoes, are excellent sources.
+
+- **Dairy and Nuts**
+  - Dairy products like yogurt and milk provide substantial potassium.
+  - Nuts and legumes, including beans and lentils, are also good sources.
+
+---
+
+### 📚 References
+
+1. Potassium is widely available in many foods, particularly fruits and vegetables like leafy greens, beans, nuts, and starchy vegetables [1].
+2. Foods that are rich in potassium include bananas, oranges, sweet potatoes, and legumes [2].
+3. The DASH Eating Plan emphasizes potassium intake to support heart health and lower blood pressure [3]. 
+
+[1] https://nutritionsource.hsph.harvard.edu/potassium/
+[2] https://www.healthline.com/nutrition/foods-loaded-with-potassium
+[3] https://www.nhlbi.nih.gov/sites/default/files/publications/WES09-DASH-Potassium.pdf
