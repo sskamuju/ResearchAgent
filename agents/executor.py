@@ -16,6 +16,41 @@ TOOL_REGISTRY = {
     "tavily_search": tavily_search
 }
 
+def convert_to_citation_format(results: dict) -> list[dict]:
+    """
+    Converts raw execution results into a format usable by the synthesizer agent.
+    Supports both dict and list outputs from tools.
+    """
+    formatted = []
+
+    for step_id, result in results.items():
+        if isinstance(result, dict) and "error" in result:
+            continue  # Skip errored steps
+
+        # Tavily and other tools might return a list of result dictionaries
+        if isinstance(result, list):
+            if not result:
+                continue
+            # Use only the first result for synthesis to keep things concise
+            first = result[0]
+            summary = first.get("content", first.get("title", "No summary available"))
+            link = first.get("url", "No link provided")
+        elif isinstance(result, dict):
+            summary = result.get("summary") or result.get("text") or "No summary available"
+            link = result.get("url") or result.get("link") or "No link provided"
+        else:
+            # Catch-all for weird outputs
+            summary = str(result)
+            link = "No link provided"
+
+        formatted.append({
+            "step_id": step_id,
+            "summary": summary,
+            "link": link
+        })
+
+    return formatted
+
 @traceable(
     name="ExecutorAgent-plan",
     run_type="chain",
@@ -81,7 +116,9 @@ def main():
         }
     )
 
-    final_answer = synthesize_answer(user_query, results)
+    formatted_results = convert_to_citation_format(results)
+    final_answer = synthesize_answer(user_query, formatted_results)
+
 
     output_dir = "outputs"
     output_path = os.path.join(output_dir, "synthesis.md")

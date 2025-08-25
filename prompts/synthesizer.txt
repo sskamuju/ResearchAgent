@@ -24,7 +24,7 @@ Summarize the top 3–5 points the user should walk away with. Keep them short, 
 Provide a two-level outline that explains the topic clearly.
 
 - Use **headings** for major sections (`##`)
-- Under each heading, include 2–4 concise bullet points (`-`)
+- Under each heading, include 3-5 concise bullet points (`-`)
 - Highlight relationships, timelines, or causes/effects if relevant.
 
 ---
@@ -32,7 +32,7 @@ Provide a two-level outline that explains the topic clearly.
 ### References
 
 Use **inline citations** (like `[1]`, `[2]`) where appropriate.
-At the bottom, include a **numbered list of sources** based on the step IDs from the search plan.
+At the bottom, include a **numbered list of sources** based on the step IDs from the search plan along with the associated links to each reference.
 
 - Format:
     - `[1] Summary of result from step1`
