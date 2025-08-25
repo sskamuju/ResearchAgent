@@ -2,7 +2,7 @@
 
 
 import json
-from pathlib import Path
+from datetime import datetime
 from core.models import Plan
 from core.llm import client
 from core.utils import load_prompt
@@ -16,9 +16,17 @@ PLANNER_PROMPT = load_prompt("prompts/planner.txt")
     metadata={"description": "Generates a multi-step plan from user query"}
 )
 def make_plan(user_prompt: str) -> Plan:
+    curr = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
     messages = [
         {"role": "system", "content": PLANNER_PROMPT},
-        {"role": "user", "content": f"User prompt: {user_prompt}"}
+        {"role": "user",
+        "content": (
+            f"User prompt: {user_prompt}\n\n"
+            f"The current date and time is {curr}"
+            "Prefer recent or up to date sources when possible"
+            )
+        }
     ]
 
     response = client.chat.completions.create(
