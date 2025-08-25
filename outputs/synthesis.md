@@ -1,39 +1,41 @@
 ---
 
-### 📌 Key Takeaways
+### Key Takeaways
 
-- Anaconda simplifies package and environment management, especially for Python, by using Conda, which supports multiple programming languages and dependencies beyond Python [3][5].
-- It is particularly beneficial for projects requiring a robust environment management system, capable of handling complex dependencies and cross-platform compatibility [3][5].
-- Anaconda provides an integrated solution for both package management and environment management, unlike pip, which is Python-specific [3].
-- While powerful, Anaconda may not be optimal for all projects, especially where finer control over dependencies is required, or due to recent licensing changes [1][3].
-
----
-
-### 🧠 Structured Outline
-
-## Advantages of Using Anaconda for Environment Management
-
-- **Comprehensive Package Management**
-  - Supports multiple programming languages, not just Python, which allows managing various types of dependencies [3].
-  - Handles both system-level and non-Python dependencies effectively, providing a comprehensive environment setup [5].
-
-- **Ease of Use and Integration**
-  - Conda, Anaconda's package manager, simplifies the installation of complex packages and dependencies with its cross-platform capabilities [3][5].
-  - Provides an integrated environment management system, unlike other tools that require separate solutions for environment and package management [3].
-
-- **Robust Environment Features**
-  - Ideal for projects that require a robust and reliable environment setup due to its ability to manage complex dependencies across platforms [5].
-  - Supports creating isolated environments that can include different versions of Python and other languages [5].
-
-- **Considerations and Limitations**
-  - Licensing changes and the need for a minimal setup can make alternatives like Miniconda more appealing for certain projects or developers [1].
-  - Some developers may prefer other tools that offer more explicit control over dependency resolution and conflict management [1].
+1. President Trump's tariffs led Southeast Asian countries to seek alternative trade partners and increased China's influence in the region.
+2. Southeast Asian countries like Indonesia, Thailand, and Malaysia had varied responses to the tariffs, revealing different strategic approaches.
+3. The tariffs prompted negotiations, resulting in some Southeast Asian countries securing reduced tariff rates on their exports to the U.S.
+4. The tariffs affected regional trade dynamics, including transshipment practices aimed at bypassing U.S. tariffs on Chinese goods.
 
 ---
 
-### 📚 References
+### Structured Outline
 
-1. [Anaconda Alternatives for Python Environment](https://www.datacamp.com/blog/anaconda-alternatives) - Discusses when Anaconda might not be the optimal choice and introduces alternatives.
-2. [Venv vs Anaconda: Choosing the Right Tool](https://saturncloud.io/blog/venv-vs-anaconda-choosing-the-right-tool-for-creating-virtual-environments-in-python/) - Compares venv and Anaconda for creating virtual environments.
-3. [Conda vs Pip: Choosing the Right Python Package Manager](https://betterstack.com/community/guides/scaling-python/conda-vs-pip/) - Explains the differences between Conda and Pip, highlighting Anaconda's strengths.
-4. [Venv vs. Conda: Which to Choose](https://www.gitpod.io/blog/venv-vs-conda-which-to-choose) - Offers a comparative analysis of venv and conda, emphasizing conda's robustness.
+## Impact of Tariffs on Southeast Asian Economies
+
+- **Search for Alternative Trade Partners**
+  - Southeast Asian countries were compelled to explore new trade partnerships due to U.S. tariffs.
+  - The tariffs inadvertently increased China's influence in the region as countries sought to balance their economic ties.
+
+- **Diverse Strategic Responses**
+  - Countries like Indonesia, Thailand, and Malaysia exhibited different reactions, indicating a lack of unified strategy.
+  - These varied responses reflect the unique economic priorities and dependencies of each nation.
+
+- **Negotiated Tariff Reductions**
+  - Some countries successfully negotiated lower tariffs, such as Vietnam reducing its tariff from 46% to 20% on exports to the U.S.
+  - The Philippines and Indonesia also managed to secure identical reduced tariff rates of 19% on their exports.
+
+## Broader Economic Implications
+
+- **Regional Trade Dynamics**
+  - The tariffs and resultant trade policies reshaped trade flows, leading to increased Chinese exports to Southeast Asia.
+  - Transshipment practices were scrutinized as countries in the region became intermediaries for Chinese goods to the U.S. market.
+
+---
+
+### References
+
+1. [Southeast Asia Responds to Trump Tariffs](https://www.cfr.org/blog/southeast-asia-responds-trump-tariffs) - Discussion on the regional response to tariffs and China's increasing influence.
+2. [Southeast Asia's Responses Split Over Trump's August 1 ...](https://chinaglobalsouth.com/2025/07/09/southeast-asia-split-trump-august-1-tariffs/) - Analysis of differing responses from key Southeast Asian countries.
+3. [OTR: How Southeast Asia Negotiated Lower US Tariffs](https://www.asiamediacentre.org.nz/otr-how-southeast-asia-negotiated-lower-us-tariffs) - Details on negotiated tariff reductions with the U.S.
+4. [How US Tariffs on Southeast Asia Could Impact China's ...](https://www.china-briefing.com/news/chinas-transshipments-through-southeast-asia-impact-of-us-tariffs/) - Examination of trade dynamics and transshipment issues.

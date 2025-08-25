@@ -14,12 +14,12 @@ Generate a response with the following structure in markdown:
 
 ---
 
-### 📌 Key Takeaways
+### Key Takeaways
 Summarize the top 3–5 points the user should walk away with. Keep them short, factual, and high signal.
 
 ---
 
-### 🧠 Structured Outline
+### Structured Outline
 
 Provide a two-level outline that explains the topic clearly.
 
@@ -29,7 +29,7 @@ Provide a two-level outline that explains the topic clearly.
 
 ---
 
-### 📚 References
+### References
 
 Use **inline citations** (like `[1]`, `[2]`) where appropriate.
 At the bottom, include a **numbered list of sources** based on the step IDs from the search plan.
