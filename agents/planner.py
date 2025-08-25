@@ -2,10 +2,10 @@
 
 
 import json
-from pydantic import ValidationError
+from pathlib import Path
 from core.models import Plan
 from core.llm import client
-from core.utils import load_prompt, log
+from core.utils import load_prompt
 from langsmith import traceable
 
 PLANNER_PROMPT = load_prompt("prompts/planner.txt")
@@ -28,18 +28,11 @@ def make_plan(user_prompt: str) -> Plan:
         temperature=0.2,
     )
 
+    # Parse the JSON plan returned by the LLM
     content = response.choices[0].message.content
-    
     try:
-        plan_data = json.loads(response.choices[0].message.content)
-        plan = Plan(**plan_data)
-        return plan
-    except json.JSONDecodeError as e:
-        log("planner", f"Failed to parse JSON from LLM: {e}")
-        raise RuntimeError("LLM did not return valid JSON.")
-    except ValidationError as e:
-        log("planner", f"Plan schema validation failed: {e}")
-        raise RuntimeError("LLM output did not match expected plan schema.")
+        plan_data = json.loads(content)
+        return Plan(**plan_data)
     except Exception as e:
         print("[planner.py] Failed to parse plan:", e)
         print("Raw content:\n", content)
