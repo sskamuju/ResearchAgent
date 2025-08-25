@@ -2,7 +2,6 @@
 
 
 import json
-import os
 from core.llm import client
 from core.utils import load_prompt, log
 from langsmith import traceable
@@ -10,7 +9,11 @@ from langsmith import traceable
 
 SYNTHESIZER_PROMPT = load_prompt("prompts/synthesizer.txt")
 
-@traceable(name="SynthesizerAgent")
+@traceable(
+    name="SynthesizerAgent",
+    tags=["agent", "synthesizer"],
+    metadata={"description": "Synthesizes final answer from tool results"}
+)
 def synthesize_answer(user_question: str, results: dict) -> str:
     formatted_results = json.dumps(results, indent=2)
 
@@ -28,9 +31,3 @@ def synthesize_answer(user_question: str, results: dict) -> str:
     )
 
     return response.choices[0].message.content.strip()
-
-if __name__ == "__main__":
-    # Minimal CLI test
-    dummy_results = {"step1": "Banks failed", "step2": "Housing collapsed"}
-    answer = synthesize_answer("What caused the 2008 financial crisis?", dummy_results)
-    print("\nSynthesized Answer:\n", answer)

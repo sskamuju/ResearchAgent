@@ -29,23 +29,19 @@ ResearchAgent/
 └── README              # Project documentation
 ```
 
-## Quick Start
+## 🐳 Quickstart with Docker
 
-1. **Install dependencies**
-	```sh
-	pip install -r requirements.txt
-	```
+To build and run the research agent using Docker:
 
-2. **Set up environment variables**
-	- Copy `.env.example` to `.env` and fill in your API keys (e.g., `OPENAI_API_KEY`, `TAVILY_API_KEY`).
+```bash
+# 1. Build the image
+docker build -t research-agent .
 
-3. **Run the planner agent**
-	```sh
-	python -m agents.planner
-	```
+# 2. Run with a CLI prompt
+docker run --rm -it --env-file .env research-agent --question "Who are the most influential R&B singers of the 2010s?"
 
-4. **(Optional) Extend the executor**
-	- Implement logic in `agents/executor.py` to execute plan steps.
+# Or to run interactively
+docker run --rm -it --env-file .env research-agent
 
 ## Core Components
 

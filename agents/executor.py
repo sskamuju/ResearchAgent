@@ -8,18 +8,27 @@ from agents.synthesizer import synthesize_answer
 from core.models import Plan
 from tools.tavily import tavily_search
 from core.utils import log
-from langsmith import Client, traceable
 
+from langsmith import traceable, get_current_run_tree
 
 # Tool function registry
 TOOL_REGISTRY = {
     "tavily_search": tavily_search
 }
 
-client = Client()
+@traceable(
+    name="ExecutorAgent",
+    run_type="chain",
+    tags=["agent", "executor", "research"],
+    metadata={"env": "local"}
+)
+def execute_plan(plan: Plan, user_query: str, langsmith_extra=None) -> dict:
+    # Access current trace and append dynamic metadata/tags
+    rt = get_current_run_tree()
+    if rt:
+        rt.metadata["user_query"] = user_query
+        rt.tags.append("executing-plan")
 
-@traceable(name="ExecutorAgent")
-def execute_plan(plan: Plan) -> dict:
     results = {}
 
     for step in plan.steps:
@@ -53,28 +62,27 @@ def main():
     user_query = args.question or input("What would you like to learn about? ").strip()
     log("executor", f"Received user query: {user_query}")
 
-    # Generate a plan
+    # Create plan and execute it with tagging and metadata passed as langsmith_extra
     plan = make_plan(user_query)
-    print("\n[executor.py] Plan created:")
-    print(plan.model_dump_json(indent=2))
 
-    # Execute the plan
-    results = execute_plan(plan)
-    print("\n[executor.py] Execution results:")
-    for step_id, result in results.items():
-        print(f"\nStep: {step_id}\nResult:\n{result}")
+    results = execute_plan(
+        plan,
+        user_query,
+        langsmith_extra={
+            "tags": ["session-run"],
+            "metadata": {
+                "question_length": len(user_query),
+                "output_file": "outputs/synthesis.md"
+            }
+        }
+    )
 
     final_answer = synthesize_answer(user_query, results)
-    print("\n[executor.py] Final synthesized answer:")
-    print(final_answer)
 
     output_dir = "outputs"
     output_path = os.path.join(output_dir, "synthesis.md")
-
-    # Ensure directory exists
     os.makedirs(output_dir, exist_ok=True)
 
-    # Overwrite the file with each run
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(final_answer)
 

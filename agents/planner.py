@@ -1,11 +1,8 @@
 
 
 
-import os
 import json
 from pathlib import Path
-
-
 from core.models import Plan
 from core.llm import client
 from core.utils import load_prompt
@@ -13,11 +10,14 @@ from langsmith import traceable
 
 PLANNER_PROMPT = load_prompt("prompts/planner.txt")
 
-@traceable(name="PlannerAgent")
+@traceable(
+    name="PlannerAgent",
+    tags=["agent", "planner"],
+    metadata={"description": "Generates a multi-step plan from user query"}
+)
 def make_plan(user_prompt: str) -> Plan:
-    system_prompt = PLANNER_PROMPT
     messages = [
-        {"role": "system", "content": system_prompt},
+        {"role": "system", "content": PLANNER_PROMPT},
         {"role": "user", "content": f"User prompt: {user_prompt}"}
     ]
 
@@ -37,9 +37,4 @@ def make_plan(user_prompt: str) -> Plan:
         print("[planner.py] Failed to parse plan:", e)
         print("Raw content:\n", content)
         raise
-
-
-if __name__ == "__main__":
-    plan = make_plan("What caused the 2008 financial crisis?")
-    print(plan.model_dump_json(indent=2))
 
