@@ -22,8 +22,8 @@ def make_plan(user_prompt: str) -> Plan:
         {"role": "system", "content": PLANNER_PROMPT},
         {"role": "user",
         "content": (
-            f"User prompt: {user_prompt}\n\n"
-            f"The current date and time is {curr}"
+            f"User prompt: {user_prompt}\n"
+            f"The current date and time is {curr}\n"
             "Prefer recent or up to date sources when possible"
             )
         }
