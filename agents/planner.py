@@ -20,6 +20,22 @@ PLANNER_PROMPT = load_prompt("prompts/planner.txt")
     }
 )
 def make_plan(user_prompt: str) -> Plan:
+    """
+    Generates a multi-step research plan from a natural language user query.
+
+    This function sends a structured system prompt and the user's question to an LLM
+    to generate a list of step instructions that define which tools to call and with what arguments.
+
+    Args:
+        user_prompt (str): The user's research question or query.
+
+    Returns:
+        Plan: A structured plan consisting of multiple PlanStep objects.
+
+    Raises:
+        Exception: If the LLM response cannot be parsed as valid JSON.
+    """
+    
     curr = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     messages = [

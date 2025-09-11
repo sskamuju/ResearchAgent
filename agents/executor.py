@@ -18,9 +18,18 @@ TOOL_REGISTRY = {
 
 def convert_to_citation_format(results: dict) -> list[dict]:
     """
-    Converts raw execution results into a format usable by the synthesizer agent.
-    Supports both dict and list outputs from tools.
+    Converts raw tool execution results into a list of citation-style dictionaries
+    usable by the synthesizer agent.
+
+    Handles both list and dict output formats from tools and skips errored steps.
+
+    Args:
+        results (dict): A dictionary mapping step_id to result output or error.
+
+    Returns:
+        list[dict]: A list of cleaned result dicts with step_id, summary, and link.
     """
+
     formatted = []
 
     for step_id, result in results.items():
@@ -61,6 +70,21 @@ def convert_to_citation_format(results: dict) -> list[dict]:
     }
 )
 def execute_plan(plan: Plan, user_query: str, langsmith_extra=None) -> dict:
+    """
+    Executes each step in a research plan by invoking the appropriate tools with arguments.
+
+    For each PlanStep, the function looks up the corresponding tool by name, runs it,
+    logs the result or error, and returns a dictionary of outputs.
+
+    Args:
+        plan (Plan): The structured list of tool steps to execute.
+        user_query (str): The original query used for logging or tracing.
+        langsmith_extra (dict, optional): Additional metadata for LangSmith tracing.
+
+    Returns:
+        dict: A mapping from step IDs to tool outputs or error messages.
+    """
+
     rt = get_current_run_tree()
     if rt:
         rt.metadata["user_query"] = user_query
@@ -96,6 +120,16 @@ def execute_plan(plan: Plan, user_query: str, langsmith_extra=None) -> dict:
     }
 )
 def main():
+    """
+    Command-line entry point for the Research Agent.
+
+    - Parses CLI arguments or prompts the user for a question.
+    - Generates a multi-step plan via the planner agent.
+    - Executes the plan and gathers tool results.
+    - Synthesizes a final answer using the synthesizer agent.
+    - Saves the output to 'outputs/synthesis.md'.
+    """
+    
     parser = argparse.ArgumentParser(description="Research Agent CLI")
     parser.add_argument(
         "--question",
