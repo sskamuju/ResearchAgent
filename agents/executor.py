@@ -8,7 +8,7 @@ from agents.synthesizer import synthesize_answer
 from core.models import Plan
 from tools.tavily import tavily_search
 from core.utils import log
-
+from core.mem import init_db, save_run
 from langsmith import traceable, get_current_run_tree
 
 # Tool function registry
@@ -16,11 +16,22 @@ TOOL_REGISTRY = {
     "tavily_search": tavily_search
 }
 
+init_db()
+
 def convert_to_citation_format(results: dict) -> list[dict]:
     """
-    Converts raw execution results into a format usable by the synthesizer agent.
-    Supports both dict and list outputs from tools.
+    Converts raw tool execution results into a list of citation-style dictionaries
+    usable by the synthesizer agent.
+
+    Handles both list and dict output formats from tools and skips errored steps.
+
+    Args:
+        results (dict): A dictionary mapping step_id to result output or error.
+
+    Returns:
+        list[dict]: A list of cleaned result dicts with step_id, summary, and link.
     """
+
     formatted = []
 
     for step_id, result in results.items():
@@ -52,12 +63,30 @@ def convert_to_citation_format(results: dict) -> list[dict]:
     return formatted
 
 @traceable(
-    name="ExecutorAgent-plan",
+    name="ExecutorAgent",
     run_type="chain",
-    tags=["agent", "executor", "research"],
-    metadata={"env": "local"}
+    metadata={
+        "description": "Executes each step of a research plan using registered tools",
+        "agent": "Executor",
+        "model": "N/A"
+    }
 )
 def execute_plan(plan: Plan, user_query: str, langsmith_extra=None) -> dict:
+    """
+    Executes each step in a research plan by invoking the appropriate tools with arguments.
+
+    For each PlanStep, the function looks up the corresponding tool by name, runs it,
+    logs the result or error, and returns a dictionary of outputs.
+
+    Args:
+        plan (Plan): The structured list of tool steps to execute.
+        user_query (str): The original query used for logging or tracing.
+        langsmith_extra (dict, optional): Additional metadata for LangSmith tracing.
+
+    Returns:
+        dict: A mapping from step IDs to tool outputs or error messages.
+    """
+
     rt = get_current_run_tree()
     if rt:
         rt.metadata["user_query"] = user_query
@@ -66,7 +95,7 @@ def execute_plan(plan: Plan, user_query: str, langsmith_extra=None) -> dict:
     results = {}
 
     for step in plan.steps:
-        log("executor", f"Executing {step.id} with tool '{step.tool}' and args {step.args}")
+        log("executor", f"Executing step '{step.query}' with tool '{step.tool}'")
 
         tool_fn = TOOL_REGISTRY.get(step.tool)
         if not tool_fn:
@@ -75,7 +104,7 @@ def execute_plan(plan: Plan, user_query: str, langsmith_extra=None) -> dict:
             continue
 
         try:
-            output = tool_fn(**step.args)
+            output = tool_fn(step.query)
             results[step.id] = output
         except Exception as e:
             log("executor", f"Error executing {step.id}: {e}")
@@ -86,10 +115,23 @@ def execute_plan(plan: Plan, user_query: str, langsmith_extra=None) -> dict:
 @traceable(
     name="ExecutorAgent-main",
     run_type="chain",
-    tags=["agent", "executor", "research"],
-    metadata={"env": "local"}
+    metadata={
+        "description": "CLI entry point for running the full research agent pipeline",
+        "agent": "Executor",
+        "model": "N/A"
+    }
 )
 def main():
+    """
+    Command-line entry point for the Research Agent.
+
+    - Parses CLI arguments or prompts the user for a question.
+    - Generates a multi-step plan via the planner agent.
+    - Executes the plan and gathers tool results.
+    - Synthesizes a final answer using the synthesizer agent.
+    - Saves the output to 'outputs/synthesis.md'.
+    """
+
     parser = argparse.ArgumentParser(description="Research Agent CLI")
     parser.add_argument(
         "--question",
@@ -118,6 +160,7 @@ def main():
 
     formatted_results = convert_to_citation_format(results)
     final_answer = synthesize_answer(user_query, formatted_results)
+    save_run(user_query, plan.model_dump(), final_answer)
 
 
     output_dir = "outputs"

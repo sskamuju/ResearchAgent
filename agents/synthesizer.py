@@ -10,10 +10,17 @@ SYNTHESIZER_PROMPT = load_prompt("prompts/synthesizer.txt")
 
 def format_results_for_prompt(results: list[dict]) -> str:
     """
-    Takes a list of result dicts with step_id, summary, and link and
-    formats them in a markdown-friendly way for injection into the prompt.
+    Formats tool execution results into a markdown-friendly string for LLM prompting.
+
+    Args:
+        results (list[dict]): A list of dictionaries containing step_id, summary, and link keys.
+
+    Returns:
+        str: A newline-separated, markdown-formatted string for injection into the synthesis prompt.
     """
+
     formatted = ""
+
     for r in results:
         step_id = r.get("step_id", "N/A")
         summary = r.get("summary", "No summary provided")
@@ -23,14 +30,28 @@ def format_results_for_prompt(results: list[dict]) -> str:
 
 @traceable(
     name="SynthesizerAgent",
-    tags=["agent", "synthesizer"],
-    metadata={"description": "Synthesizes final answer from tool results"}
+    run_type="chain",
+    metadata={
+        "description": "Synthesizes a structured markdown answer from tool outputs",
+        "agent": "Synthesizer",
+        "model": "gpt-4o"
+    }
 )
 def synthesize_answer(user_question: str, results: list[dict]) -> str:
     """
-    Synthesizes an answer to the user_question using the formatted list of search results.
-    Each result must contain: step_id, summary, and link.
+    Synthesizes a structured, markdown-formatted answer using LLM completion.
+
+    Combines the user's question and search results into a prompt, then sends it to the model
+    to generate a high-quality, well-organized markdown response.
+
+    Args:
+        user_question (str): The original question posed by the user.
+        results (list[dict]): List of dictionaries containing summaries and links for each tool step.
+
+    Returns:
+        str: A markdown-formatted response including key takeaways, structured outline, and references.
     """
+
     formatted_results = format_results_for_prompt(results)
 
     system_prompt = SYNTHESIZER_PROMPT.format(
