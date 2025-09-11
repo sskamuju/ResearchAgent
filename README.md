@@ -24,7 +24,7 @@ ResearchAgent/
 │   ├── llm.py            # OpenAI client setup
 │   ├── models.py         # Pydantic models for plans and steps
 │   └── utils.py          # Utility functions (e.g., logging, prompt loading)
-│   └── mem.py         # Minimal SQLite interface for storing plans and outputs
+│   └── mem.py            # Minimal SQLite interface for storing plans and outputs
 ├── tools/
 │   └── tavily.py         # Tavily web search tool wrapper
 ├── prompts/
