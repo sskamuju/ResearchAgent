@@ -8,13 +8,15 @@ from agents.synthesizer import synthesize_answer
 from core.models import Plan
 from tools.tavily import tavily_search
 from core.utils import log
-
+from core.mem import init_db, save_run
 from langsmith import traceable, get_current_run_tree
 
 # Tool function registry
 TOOL_REGISTRY = {
     "tavily_search": tavily_search
 }
+
+init_db()
 
 def convert_to_citation_format(results: dict) -> list[dict]:
     """
@@ -129,7 +131,7 @@ def main():
     - Synthesizes a final answer using the synthesizer agent.
     - Saves the output to 'outputs/synthesis.md'.
     """
-    
+
     parser = argparse.ArgumentParser(description="Research Agent CLI")
     parser.add_argument(
         "--question",
@@ -158,6 +160,7 @@ def main():
 
     formatted_results = convert_to_citation_format(results)
     final_answer = synthesize_answer(user_query, formatted_results)
+    save_run(user_query, plan.model_dump(), final_answer)
 
 
     output_dir = "outputs"

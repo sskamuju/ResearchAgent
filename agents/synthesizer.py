@@ -18,7 +18,7 @@ def format_results_for_prompt(results: list[dict]) -> str:
     Returns:
         str: A newline-separated, markdown-formatted string for injection into the synthesis prompt.
     """
-    
+
     formatted = ""
 
     for r in results:
