@@ -8,7 +8,9 @@ ResearchAgent is a headless Python research agent that automates research tasks 
 - **LLM-powered planning:** Uses OpenAI models to generate structured research plans.
 - **Tool integration:** Supports external APIs (e.g., Tavily) for web search and data gathering.
 - **Extensible architecture:** Easily add new tools, models, or workflows.
-- **LangSmith integrated:** End-to-end observability of each query, including tool usage and synthesized answers.
+- **LangSmith integrated:** Each agent is traced using structured metadata (e.g., agent type, model version, description) for full observability.
+- **Persistent memory (SQLite):** All user queries, plans, prompts, tool results, and final outputs are stored in `agent_memory.db`.
+
 
 ## Project Structure
 
@@ -22,6 +24,7 @@ ResearchAgent/
 │   ├── llm.py            # OpenAI client setup
 │   ├── models.py         # Pydantic models for plans and steps
 │   └── utils.py          # Utility functions (e.g., logging, prompt loading)
+│   └── mem.py         # Minimal SQLite interface for storing plans and outputs
 ├── tools/
 │   └── tavily.py         # Tavily web search tool wrapper
 ├── prompts/
@@ -47,10 +50,12 @@ ResearchAgent/
 	Generates a step-by-step research plan using GPT-4o and a curated system prompt.
 
 2. **Executor Agent (`agents/executor.py`):**  
-	Executes each step in the plan using registered tools (e.g., web search), logs results, and handles errors.
+   Executes each step in the plan using registered tools (e.g., Tavily web search).  
+   Unpacks tool arguments via `**step.args`, logs results, and stores them in `agent_memory.db`.
 
 3. **Synthesizer Agent (`agents/synthesizer.py`):**  
-	Summarizes and compiles all tool results into a coherent final answer using an LLM and a synthesis prompt.
+   Uses GPT-4o to synthesize a structured markdown response from tool results.  
+   Stores the prompt and final output markdown to persistent memory.
 
 4. **LangSmith Logging:**  
 	Each step is traced with tags and metadata for observability and evaluation.
@@ -82,6 +87,8 @@ and enter your question interactively.
 
 The final answer will be written to `outputs/synthesis.md`.
 
+It will also be stored persistently in `agent_memory.db`, alongside the original query, plan, and prompt logs.
+
 ## Extending the Agent
 
 - Add new tools in `tools/` and register them in `agents/executor.py`.
@@ -91,3 +98,5 @@ The final answer will be written to `outputs/synthesis.md`.
 ## Observability
 
 - All major agent actions are traced and tagged using LangSmith for easy debugging and evaluation.
+- All run metadata is stored in a local SQLite database (`agent_memory.db`), which enables replaying or inspecting any past research run.
+- You can query this file manually with `sqlite3`, or extend `core/mem.py` to browse saved runs interactively.
