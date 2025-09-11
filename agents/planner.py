@@ -12,8 +12,11 @@ PLANNER_PROMPT = load_prompt("prompts/planner.txt")
 
 @traceable(
     name="PlannerAgent",
-    tags=["planner", "gpt-4o"],
-    metadata={"description": "Generates a multi-step plan from user query"}
+    run_type="chain",
+    tags=["agent", "planner", "gpt-4o"],
+    metadata={
+        "description": "Generates a multi-step information-gathering plan from the user query"
+    }
 )
 def make_plan(user_prompt: str) -> Plan:
     curr = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

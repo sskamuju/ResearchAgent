@@ -54,8 +54,10 @@ def convert_to_citation_format(results: dict) -> list[dict]:
 @traceable(
     name="ExecutorAgent-plan",
     run_type="chain",
-    tags=["agent", "executor", "research"],
-    metadata={"env": "local"}
+    tags=["agent", "executor", "plan", "gpt-4o"],
+    metadata={
+        "description": "Executes each step of a research plan using registered tools"
+    }
 )
 def execute_plan(plan: Plan, user_query: str, langsmith_extra=None) -> dict:
     rt = get_current_run_tree()
@@ -86,8 +88,10 @@ def execute_plan(plan: Plan, user_query: str, langsmith_extra=None) -> dict:
 @traceable(
     name="ExecutorAgent-main",
     run_type="chain",
-    tags=["agent", "executor", "research"],
-    metadata={"env": "local"}
+    tags=["agent", "executor", "main", "gpt-4o"],
+    metadata={
+        "description": "CLI entry point for running the full research agent pipeline"
+    }
 )
 def main():
     parser = argparse.ArgumentParser(description="Research Agent CLI")

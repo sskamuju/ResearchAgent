@@ -24,8 +24,11 @@ def format_results_for_prompt(results: list[dict]) -> str:
 
 @traceable(
     name="SynthesizerAgent",
-    tags=["synthesizer"],
-    metadata={"description": "Synthesizes final answer from tool results"}
+    run_type="chain",
+    tags=["agent", "synthesizer", "gpt-4o"],
+    metadata={
+        "description": "Synthesizes a structured markdown answer from tool outputs"
+    }
 )
 def synthesize_answer(user_question: str, results: list[dict]) -> str:
     """
