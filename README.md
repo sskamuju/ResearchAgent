@@ -35,6 +35,7 @@ ResearchAgent/
 │   └── synthesis.md      # Final answer written here on each run
 ├── .env.example          # Environment variable template
 ├── Dockerfile            # Containerization support
+├── agent_memory.db       # Persistent SQLite memory
 ├── requirements.txt      # Python dependencies
 ├── run.py                # CLI entry point for running the agent
 └── README.md             # Project documentation
