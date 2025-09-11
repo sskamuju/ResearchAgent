@@ -52,7 +52,7 @@ def convert_to_citation_format(results: dict) -> list[dict]:
     return formatted
 
 @traceable(
-    name="ExecutorAgent-plan",
+    name="ExecutorAgent",
     run_type="chain",
     metadata={
         "description": "Executes each step of a research plan using registered tools",
