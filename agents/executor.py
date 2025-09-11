@@ -66,7 +66,7 @@ def execute_plan(plan: Plan, user_query: str, langsmith_extra=None) -> dict:
     results = {}
 
     for step in plan.steps:
-        log("executor", f"Executing {step.id} with tool '{step.tool}' and args {step.args}")
+        log("executor", f"Executing step '{step.query}' with tool '{step.tool}'")
 
         tool_fn = TOOL_REGISTRY.get(step.tool)
         if not tool_fn:
@@ -75,7 +75,7 @@ def execute_plan(plan: Plan, user_query: str, langsmith_extra=None) -> dict:
             continue
 
         try:
-            output = tool_fn(**step.args)
+            output = tool_fn(step.query)
             results[step.id] = output
         except Exception as e:
             log("executor", f"Error executing {step.id}: {e}")

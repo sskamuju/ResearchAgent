@@ -14,6 +14,7 @@ def format_results_for_prompt(results: list[dict]) -> str:
     formats them in a markdown-friendly way for injection into the prompt.
     """
     formatted = ""
+
     for r in results:
         step_id = r.get("step_id", "N/A")
         summary = r.get("summary", "No summary provided")
@@ -23,7 +24,7 @@ def format_results_for_prompt(results: list[dict]) -> str:
 
 @traceable(
     name="SynthesizerAgent",
-    tags=["agent", "synthesizer"],
+    tags=["synthesizer"],
     metadata={"description": "Synthesizes final answer from tool results"}
 )
 def synthesize_answer(user_question: str, results: list[dict]) -> str:

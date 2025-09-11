@@ -7,7 +7,7 @@ from typing import List, Dict, Any
 class PlanStep(BaseModel):
     id: str
     tool: str
-    args: Dict[str, Any]
+    query: str
     rationale: str
 
 class Plan(BaseModel):

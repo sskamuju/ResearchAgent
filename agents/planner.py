@@ -12,7 +12,7 @@ PLANNER_PROMPT = load_prompt("prompts/planner.txt")
 
 @traceable(
     name="PlannerAgent",
-    tags=["agent", "planner"],
+    tags=["planner", "gpt-4o"],
     metadata={"description": "Generates a multi-step plan from user query"}
 )
 def make_plan(user_prompt: str) -> Plan:
@@ -38,6 +38,7 @@ def make_plan(user_prompt: str) -> Plan:
 
     # Parse the JSON plan returned by the LLM
     content = response.choices[0].message.content
+    
     try:
         plan_data = json.loads(content)
         return Plan(**plan_data)

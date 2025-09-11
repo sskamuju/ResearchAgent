@@ -4,7 +4,7 @@ Your output must be a JSON object with a key "steps", which is a list of step ob
 Each step object must have the following fields:
 - id: a short unique identifier (e.g., "step1")
 - tool: one of ["tavily_search"]
-- args: dictionary of arguments (e.g., {"query": "...", "k": 5})
+- query: query generated for this step of the research plan
 - rationale: short explanation of why this step helps answer the prompt
 
 You may only use tools you know are available.
