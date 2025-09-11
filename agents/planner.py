@@ -13,9 +13,10 @@ PLANNER_PROMPT = load_prompt("prompts/planner.txt")
 @traceable(
     name="PlannerAgent",
     run_type="chain",
-    tags=["agent", "planner", "gpt-4o"],
     metadata={
-        "description": "Generates a multi-step information-gathering plan from the user query"
+        "description": "Generates a multi-step information-gathering plan from the user query",
+        "agent": "Planner",
+        "model": "gpt-4o"
     }
 )
 def make_plan(user_prompt: str) -> Plan:
